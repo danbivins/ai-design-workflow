@@ -1,24 +1,41 @@
 const fs = require("fs");
 const { JSDOM } = require("jsdom");
-const axe = require("axe-core");
 
+// 1. Load HTML
 const html = fs.readFileSync("04-output/index.html", "utf8");
-const dom = new JSDOM(html);
 
+// 2. Create JSDOM instance
+const dom = new JSDOM(html, {
+  runScripts: "outside-only"
+});
+
+// 3. Explicitly expose globals axe needs
 global.window = dom.window;
 global.document = dom.window.document;
+global.Node = dom.window.Node;
+global.Element = dom.window.Element;
 
-axe.run(document, {}, (err, results) => {
-  if (err) throw err;
+// 4. NOW load axe-core (important: after globals)
+const axe = require("axe-core");
+
+// 5. Run axe
+axe.run(dom.window.document, (err, results) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
 
   if (results.violations.length === 0) {
     console.log("✅ No accessibility issues found!");
   } else {
-    console.log("❌ Accessibility issues:");
-    results.violations.forEach((v, i) => {
-      console.log(`\n${i + 1}. ${v.description}`);
-      v.nodes.forEach(node => {
-        console.log("   →", node.html);
+    console.log("❌ Accessibility issues found:");
+
+    results.violations.forEach((violation, index) => {
+      console.log(`\n${index + 1}. ${violation.help}`);
+      console.log(violation.description);
+
+      violation.nodes.forEach(node => {
+        console.log("   → Affected HTML:", node.html);
         console.log("     Fix:", node.failureSummary);
       });
     });

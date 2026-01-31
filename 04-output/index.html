@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign up for early access</title>
+  <style>
+    :root {
+      --md-sys-color-primary: #6750A4;
+      --md-sys-color-on-primary: #FFFFFF;
+      --md-sys-color-surface: #FFFBFE;
+      --md-sys-color-on-surface: #1C1B1F;
+      --md-sys-color-outline: #79747E;
+      --md-sys-color-error: #B3261E;
+      --md-sys-color-on-error: #FFFFFF;
+      --md-sys-color-outline-variant: #E7E0EC;
+      --md-sys-color-primary-container: #EADDFF;
+      --md-sys-color-on-primary-container: #21005D;
+      --md-sys-radius: 4px;
+      --md-sys-type-headline-large: clamp(1.5rem, 2.5vw, 2rem);
+      --md-sys-type-body-large: 1rem;
+      --md-sys-type-body-small: 0.875rem;
+      --md-spacing-1: 4px;
+      --md-spacing-2: 8px;
+      --md-spacing-3: 12px;
+      --md-spacing-4: 16px;
+      --md-spacing-5: 20px;
+      --md-spacing-6: 24px;
+      --md-spacing-8: 32px;
+      --md-spacing-10: 40px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: var(--md-sys-type-body-large);
+      line-height: 1.5;
+      color: var(--md-sys-color-on-surface);
+      background-color: var(--md-sys-color-surface);
+      padding: var(--md-spacing-6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    main {
+      width: 100%;
+      max-width: 760px;
+    }
+
+    h1 {
+      margin: 0 0 var(--md-spacing-8);
+      font-size: var(--md-sys-type-headline-large);
+      font-weight: 400;
+      letter-spacing: 0;
+      line-height: 1.25;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--md-spacing-6);
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: var(--md-spacing-2);
+    }
+
+    label {
+      font-size: var(--md-sys-type-body-small);
+      font-weight: 500;
+      color: var(--md-sys-color-on-surface);
+    }
+
+    input {
+      width: 100%;
+      padding: var(--md-spacing-3) var(--md-spacing-4);
+      font-family: inherit;
+      font-size: var(--md-sys-type-body-large);
+      color: var(--md-sys-color-on-surface);
+      background-color: transparent;
+      border: 1px solid var(--md-sys-color-outline);
+      border-radius: var(--md-sys-radius);
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input:hover {
+      border-color: var(--md-sys-color-on-surface);
+    }
+
+    input:focus {
+      outline: 2px solid var(--md-sys-color-primary);
+      outline-offset: 2px;
+      border-color: transparent;
+    }
+
+    input[aria-invalid="true"] {
+      border-color: var(--md-sys-color-error);
+    }
+
+    input::placeholder {
+      color: var(--md-sys-color-outline);
+    }
+
+    .error-msg {
+      font-size: var(--md-sys-type-body-small);
+      color: var(--md-sys-color-error);
+      margin: 0;
+    }
+
+    .error-msg[hidden] {
+      display: none;
+    }
+
+    button {
+      margin-top: var(--md-spacing-4);
+      padding: var(--md-spacing-3) var(--md-spacing-6);
+      font-family: inherit;
+      font-size: var(--md-sys-type-body-large);
+      font-weight: 500;
+      color: var(--md-sys-color-on-primary);
+      background-color: var(--md-sys-color-primary);
+      border: none;
+      border-radius: var(--md-sys-radius);
+      cursor: pointer;
+      align-self: flex-start;
+    }
+
+    button:hover {
+      opacity: 0.92;
+    }
+
+    button:focus {
+      outline: 2px solid var(--md-sys-color-primary);
+      outline-offset: 2px;
+    }
+
+    button:focus:not(:focus-visible) {
+      outline: none;
+    }
+
+    button:focus-visible {
+      outline: 2px solid var(--md-sys-color-primary);
+      outline-offset: 2px;
+    }
+
+    [role="status"] {
+      margin-top: var(--md-spacing-6);
+      padding: var(--md-spacing-4);
+      background-color: var(--md-sys-color-primary-container);
+      color: var(--md-sys-color-on-primary-container);
+      border-radius: var(--md-sys-radius);
+    }
+
+    [role="status"][hidden] {
+      display: none;
+    }
+
+    .success-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Sign up for the early access</h1>
+
+    <div id="success-message" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+
+    <div id="success-announcer" class="sr-only" role="alert" aria-live="assertive" aria-atomic="true"></div>
+    <div id="error-announcer" class="sr-only" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+    <form id="signup-form" novalidate>
+      <div class="field">
+        <label for="full-name">Full name *</label>
+        <input
+          type="text"
+          id="full-name"
+          name="full-name"
+          autocomplete="name"
+          required
+          aria-required="true"
+          aria-invalid="false"
+          aria-describedby="full-name-error"
+        >
+        <p id="full-name-error" class="error-msg" role="alert" hidden>Please enter your full name.</p>
+      </div>
+
+      <div class="field">
+        <label for="email">Email *</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          autocomplete="email"
+          required
+          aria-required="true"
+          aria-invalid="false"
+          aria-describedby="email-error"
+        >
+        <p id="email-error" class="error-msg" role="alert" hidden>Please enter a valid email address.</p>
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+  </main>
+
+  <script>
+    (function () {
+      var form = document.getElementById('signup-form');
+      var fullNameInput = document.getElementById('full-name');
+      var emailInput = document.getElementById('email');
+      var fullNameError = document.getElementById('full-name-error');
+      var emailError = document.getElementById('email-error');
+      var successMessage = document.getElementById('success-message');
+      var successAnnouncer = document.getElementById('success-announcer');
+      var errorAnnouncer = document.getElementById('error-announcer');
+
+      function isValidFullName(value) {
+        return String(value).trim().length >= 1;
+      }
+
+      function isValidEmail(value) {
+        var trimmed = String(value).trim();
+        return trimmed.length >= 1 && trimmed.indexOf('@') !== -1;
+      }
+
+      function showErrors() {
+        var nameVal = fullNameInput.value;
+        var emailVal = emailInput.value;
+        var nameValid = isValidFullName(nameVal);
+        var emailValid = isValidEmail(emailVal);
+
+        fullNameInput.setAttribute('aria-invalid', nameValid ? 'false' : 'true');
+        fullNameError.hidden = nameValid;
+
+        emailInput.setAttribute('aria-invalid', emailValid ? 'false' : 'true');
+        emailError.hidden = emailValid;
+
+        if (!nameValid || !emailValid) {
+          var parts = [];
+          if (!nameValid) parts.push('Full name: Please enter your full name.');
+          if (!emailValid) parts.push('Email: Please enter a valid email address.');
+          errorAnnouncer.textContent = '';
+          setTimeout(function () {
+            errorAnnouncer.textContent = parts.join(' ');
+          }, 0);
+        } else {
+          errorAnnouncer.textContent = '';
+        }
+
+        return nameValid && emailValid;
+      }
+
+      var SUCCESS_TEXT = "Thanks for signing up! We'll email you in the next two weeks for access.";
+
+      function showSuccess() {
+        form.hidden = true;
+        successMessage.textContent = SUCCESS_TEXT;
+        successMessage.hidden = false;
+        successAnnouncer.textContent = '';
+        setTimeout(function () {
+          successAnnouncer.textContent = SUCCESS_TEXT;
+        }, 100);
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (showErrors()) {
+          showSuccess();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
